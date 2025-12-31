@@ -5,32 +5,32 @@ public struct BasicStats
 }
 public struct FourStats
 {
-    public int Strength;
-    public int Agility;
-    public int Intelligence;
-    public int Mind;
+    public uint Strength;
+    public uint Agility;
+    public uint Intelligence;
+    public uint Mind;
 }
 
 public struct SevenStats
 {
-    public int Attack;
-    public int Defense;
-    public int SpecialAttack;
-    public int SpecialDefense;
-    public int Speed;
-    public int Accuracy;
-    public int Evasion;
+    public uint Attack;
+    public uint Defense;
+    public uint SpecialAttack;
+    public uint SpecialDefense;
+    public uint Speed;
+    public uint Accuracy;
+    public uint Evasion;
 }
 
 public struct NineStats
 {
-    public int Vitality;
-    public int Endurance;
-    public int Vigor;
-    public int Attunement;
-    public int Strength;
-    public int Dexterity;
-    public int Adaptabilty;
-    public int Intelligence;
-    public int Faith;
+    public uint Vitality;
+    public uint Endurance;
+    public uint Vigor;
+    public uint Attunement;
+    public uint Strength;
+    public uint Dexterity;
+    public uint Adaptabilty;
+    public uint Intelligence;
+    public uint Faith;
 }

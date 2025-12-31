@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEditor.VisionOS;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,12 +15,6 @@ public class StatsDisplay : MonoBehaviour
         textObjects = GetComponentsInChildren<Text>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void InitialiseFour(FourStats stats)
     {
         for (int i = 4; i < textObjects.Length; i++)
@@ -30,6 +25,7 @@ public class StatsDisplay : MonoBehaviour
         textObjects[1].text = "Agility: " + stats.Agility.ToString();
         textObjects[2].text = "Intelligence: " + stats.Intelligence.ToString();
         textObjects[3].text = "Mind: " + stats.Mind.ToString();
+        textObjects.Last().gameObject.SetActive(true);
     }
 
     public void InitaliseSeven(SevenStats stats)
@@ -45,6 +41,7 @@ public class StatsDisplay : MonoBehaviour
         textObjects[4].text = "Speed: " + stats.Speed.ToString();
         textObjects[5].text = "Accuracy: " + stats.Accuracy.ToString();
         textObjects[6].text = "Evasion: " + stats.Evasion.ToString();
+        textObjects.Last().gameObject.SetActive(true);
     }
 
     public void InitialiseNine(NineStats stats)
@@ -58,5 +55,6 @@ public class StatsDisplay : MonoBehaviour
         textObjects[6].text = "Adaptabilty: " + stats.Adaptabilty.ToString();
         textObjects[7].text = "Intelligence: " + stats.Intelligence.ToString();
         textObjects[8].text = "Faith: " + stats.Faith.ToString();
+        textObjects.Last().gameObject.SetActive(true);
     }
 }

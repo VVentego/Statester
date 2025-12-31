@@ -6,7 +6,7 @@ public class PlayerStatManager : MonoBehaviour
     [SerializeField, Range(0, 2)]
     private int _statNr = 0;
 
-    private StatsDisplay _stats;
+    private StatsDisplay _statsDisplay;
 
     public int defaultHP = 100;
     public int maxHP;
@@ -14,67 +14,75 @@ public class PlayerStatManager : MonoBehaviour
     public int defaultMP = 100;
     public int maxMP = 100;
 
-    public BasicStats stats { get; private set; } = new();
-    public FourStats fourStats { get; private set; }
-    public SevenStats sevenStats { get; private set; }
-    public NineStats nineStats { get; private set; }
+    public BasicStats stats = new();
+    public FourStats fourStats;
+    public SevenStats sevenStats;
+    public NineStats nineStats;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
-    {
-        _stats = FindAnyObjectByType<StatsDisplay>();
-
+    { 
+        _statsDisplay = FindAnyObjectByType<StatsDisplay>();
+        
         maxHP = defaultHP;
+
+        stats.Health = maxHP;
+        stats.Mana = maxMP;
+
+        PlayerController player = GetComponent<PlayerController>();
 
         switch (_statNr)
         {
             case 0:
                 fourStats = new()
                 {
-                    Strength = 0,
-                    Agility = 0,
-                    Intelligence = 0,
-                    Mind = 0
+                    Strength = 1,
+                    Agility = 1,
+                    Intelligence = 1,
+                    Mind = 1
                 };
-                _stats.InitialiseFour(fourStats);
+                _statsDisplay.InitialiseFour(fourStats);
+                player.SetAttackHandler(gameObject.AddComponent<AttackFourStats>());
                 break;
                 case 1:
                 sevenStats = new()
                 {
-                    Attack = 0,
-                    Defense = 0,
-                    SpecialAttack = 0,
-                    SpecialDefense = 0,
-                    Speed = 0,
-                    Accuracy = 0,
-                    Evasion = 0
+                    Attack = 1,
+                    Defense = 1,
+                    SpecialAttack = 1,
+                    SpecialDefense = 1,
+                    Speed = 1,
+                    Accuracy = 1,
+                    Evasion = 1
                 };
-                _stats.InitaliseSeven(sevenStats);
+                _statsDisplay.InitaliseSeven(sevenStats);
+                player.SetAttackHandler(gameObject.AddComponent<AttackSevenStats>());
                 break;
                 case 2:
                     nineStats = new()
                     {
-                        Vitality = 0,
-                        Endurance = 0,
-                        Vigor = 0,
-                        Attunement = 0,
-                        Strength = 0,
-                        Dexterity = 0,
-                        Adaptabilty = 0,
-                        Intelligence = 0,
-                        Faith = 0
+                        Vitality = 1,
+                        Endurance = 1,
+                        Vigor = 1,
+                        Attunement = 1,
+                        Strength = 1,
+                        Dexterity = 1,
+                        Adaptabilty = 1,
+                        Intelligence = 1,
+                        Faith = 1
                     };
-                _stats.InitialiseNine(nineStats);
+                _statsDisplay.InitialiseNine(nineStats);
                 break;
             default:
                 fourStats = new()
                 {
-                    Strength = 0,
-                    Agility = 0,
-                    Intelligence = 0,
-                    Mind = 0
+                    Strength = 1,
+                    Agility = 1,
+                    Intelligence = 1,
+                    Mind = 1
                 };
-                _stats.InitialiseFour(fourStats);
+                _statsDisplay.InitialiseFour(fourStats);
+                player.SetAttackHandler(gameObject.AddComponent<AttackFourStats>());
                 break;
         }
     }
@@ -92,5 +100,4 @@ public class PlayerStatManager : MonoBehaviour
     {
         return nineStats; 
     }
-
 }
