@@ -19,16 +19,16 @@ public class AttackSevenStats : AttackBase
         float dodgeChance = baseDodgeChance;
 
         //Soft cap of 50% dodge chance
-        if (_statsObject.sevenStats.Evasion <= 10)
+        if (_statsObject.sevenStats.Evasion.Value <= 10)
         {
-            dodgeChance += _statsObject.sevenStats.Evasion * 0.05f;
+            dodgeChance += _statsObject.sevenStats.Evasion.Value * 0.05f;
         }
 
         //Beyond 10 evasion, only add 1% dodge chance.
         else
         {
             dodgeChance += 10 * 0.05f;
-            dodgeChance += (_statsObject.sevenStats.Evasion - 10) * 0.01f;
+            dodgeChance += (_statsObject.sevenStats.Evasion.Value - 10) * 0.01f;
         }
 
         if (Random.Range(0, 101) < dodgeChance * 100)
@@ -42,7 +42,7 @@ public class AttackSevenStats : AttackBase
     public override bool CalculateHitChance()
     {
         float hitChance = baseHitChance;
-        hitChance += _statsObject.sevenStats.Accuracy * 0.1f;
+        hitChance += _statsObject.sevenStats.Accuracy.Value * 0.1f;
 
         if (hitChance >= 1f)
         {
@@ -62,7 +62,7 @@ public class AttackSevenStats : AttackBase
         HitInfo hitInfo = new HitInfo();
         hitInfo.IsCrit = false;
         float damage = enemyDamage;
-        float variance = enemyDamage + Random.Range(-damageVariance, damageVariance);
+        float variance = Random.Range(-damageVariance, damageVariance);
         damage += variance;
 
         if (Random.Range(0, 101) <= 10)
@@ -71,7 +71,7 @@ public class AttackSevenStats : AttackBase
             hitInfo.IsCrit = true;
         }
 
-        float damageReduction = _statsObject.sevenStats.Defense * 0.075f; //7.5% reduction per point
+        float damageReduction = _statsObject.sevenStats.Defense.Value * 0.075f; //7.5% reduction per point
 
         //Hard cap
         if(damageReduction > 0.75f)
@@ -90,17 +90,17 @@ public class AttackSevenStats : AttackBase
     {
         HitInfo hitInfo = new HitInfo();
         hitInfo.IsCrit = false;
-        float damage = _statsObject.sevenStats.Attack * baseDamage;
-        float variance = damage + Random.Range(-damageVariance, damageVariance);
+        float damage = _statsObject.sevenStats.Attack.Value * baseDamage;
+        float variance = Random.Range(-damageVariance, damageVariance);
 
         damage += variance;
         hitInfo.Damage = Mathf.RoundToInt(damage);
 
         float critChance = baseCritChance;
-        if (_statsObject.sevenStats.Accuracy > 10)
+        if (_statsObject.sevenStats.Accuracy.Value > 10)
         {
             //Additional 1% crit chance per point over 10
-            critChance += (float)(_statsObject.sevenStats.Accuracy - 10) / 100f;
+            critChance += (float)(_statsObject.sevenStats.Accuracy.Value - 10) / 100f;
 
             //Cap it at 0.2f
             if (critChance > 0.2f)

@@ -1,3 +1,13 @@
+
+public class Stat
+{
+    public uint Value;
+
+    public Stat(uint v)
+    {
+        Value = v;
+    }
+}
 public struct BasicStats
 {
     public int Health;
@@ -5,32 +15,32 @@ public struct BasicStats
 }
 public struct FourStats
 {
-    public uint Strength;
-    public uint Agility;
-    public uint Intelligence;
-    public uint Mind;
+    public Stat Strength;
+    public Stat Agility;
+    public Stat Intelligence;
+    public Stat Mind;
 }
 
 public struct SevenStats
 {
-    public uint Attack;
-    public uint Defense;
-    public uint SpecialAttack;
-    public uint SpecialDefense;
-    public uint Speed;
-    public uint Accuracy;
-    public uint Evasion;
+    public Stat Attack;
+    public Stat Defense;
+    public Stat SpecialAttack;
+    public Stat SpecialDefense;
+    public Stat Speed;
+    public Stat Accuracy;
+    public Stat Evasion;
 }
 
 public struct NineStats
 {
-    public uint Vitality;
-    public uint Endurance;
-    public uint Vigor;
-    public uint Attunement;
-    public uint Strength;
-    public uint Dexterity;
-    public uint Adaptabilty;
-    public uint Intelligence;
-    public uint Faith;
+    public Stat Vitality;
+    public Stat Endurance;
+    public Stat Vigor;
+    public Stat Attunement;
+    public Stat Strength;
+    public Stat Dexterity;
+    public Stat Adaptabilty;
+    public Stat Intelligence;
+    public Stat Faith;
 }

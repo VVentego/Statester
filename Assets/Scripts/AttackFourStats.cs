@@ -20,8 +20,8 @@ public class AttackFourStats : AttackBase
     {
         HitInfo hitInfo = new HitInfo();
         hitInfo.IsCrit = false;
-        float damage = _statsObject.fourStats.Strength * baseDamage;
-        float variance = damage + Random.Range(-damageVariance, damageVariance);
+        float damage = _statsObject.fourStats.Strength.Value * baseDamage;
+        float variance = Random.Range(-damageVariance, damageVariance);
 
         damage += variance;
         hitInfo.Damage = Mathf.RoundToInt(damage);
@@ -31,7 +31,6 @@ public class AttackFourStats : AttackBase
             damage += damage * 0.5f;
             hitInfo.IsCrit = true;
         }
-
         return hitInfo;
     }
 
@@ -45,7 +44,7 @@ public class AttackFourStats : AttackBase
         HitInfo hitInfo = new HitInfo();
         hitInfo.IsCrit = false;
         float damage = enemyDamage;
-        float variance = enemyDamage + Random.Range(-damageVariance, damageVariance);
+        float variance = Random.Range(-damageVariance, damageVariance);
         damage += variance;
 
         if (Random.Range(0, 101) <= 10)
@@ -62,18 +61,18 @@ public class AttackFourStats : AttackBase
     public override bool CalculateEnemyHitChance()
     {
         float dodgeChance = baseDodgeChance;
-        dodgeChance += _statsObject.fourStats.Agility * 0.1f; //10% chance to dodge per agility
+        dodgeChance += _statsObject.fourStats.Agility.Value * 0.1f; //10% chance to dodge per agility
         if(dodgeChance > 0.4f)
         {
             dodgeChance = 0.4f;
         }
 
-        if (baseDodgeChance < 0.01f)
+        if (dodgeChance < 0.01f)
         {
             return true;
         }
 
-        if(Random.Range(0f, 100f) > dodgeChance * 100f)
+        if(Random.Range(0f, 100f) < dodgeChance * 100f)
         {
             return false;
         }

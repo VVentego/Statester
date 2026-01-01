@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,14 +16,21 @@ public class EnemyController : MonoBehaviour
     private bool _isAlive = true;
 
     [SerializeField] private int _baseDamage = 10;
+    private bool _isFighting = false;
 
     private PlayerController _playerController;
+
+    private Coroutine _coroutine;
+    private TMP_Text hpText;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _animator = GetComponent<Animator>();
 
         _currentHealth = _startingHealth;
+        hpText = GetComponentInChildren<TMP_Text>();
+        hpText.text = "HP: " + _currentHealth.ToString();
     }
 
     void Awake()
@@ -44,7 +52,14 @@ public class EnemyController : MonoBehaviour
 
     public void StartFighting()
     {
-        StartCoroutine(StartAttackLoop());
+        if (_isFighting == false)
+        {
+            _isFighting = true;
+            if (_coroutine == null)
+            {
+                _coroutine = StartCoroutine(StartAttackLoop());
+            }
+        }
     }
 
     public void DamageEnemy(int damage)
@@ -55,12 +70,14 @@ public class EnemyController : MonoBehaviour
         {
             EnemyDefeated.Invoke();
             _animator.SetTrigger("Dead");
+            StopCoroutine(_coroutine);
+            hpText.text = "HP: " + _currentHealth.ToString();
             return;
         }
 
+        hpText.text = "HP: " + _currentHealth.ToString();
         _animator.SetTrigger("Damaged");
-        Debug.Log("Enemy hit");
-        Debug.Log("Enemy health remaining: " +  _currentHealth.ToString());
+        Debug.Log("Enemy hit for: " + damage);
     }
 
     private void OnAttacked(HitInfo hitInfo)
@@ -83,6 +100,6 @@ public class EnemyController : MonoBehaviour
     }
     private void OnPlayerDefeated()
     {
-        StopCoroutine(StartAttackLoop());
+        StopCoroutine(_coroutine);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public UnityEvent<HitInfo> AttackEnemy = new();
 
     private bool _isAlive = true;
+    TMP_Text _textMeshPro;
 
     Animator _animator;
     PlayerStatManager _statManager;
@@ -32,6 +34,8 @@ public class PlayerController : MonoBehaviour
         _animator = GetComponent<Animator>();
         _statManager = GetComponent<PlayerStatManager>();
         attackHandler = GetComponent<AttackBase>();
+        _textMeshPro = GetComponentInChildren<TMP_Text>();
+        _textMeshPro.text = "HP: " + _statManager.stats.Health.ToString();
     }
 
     public void StartFighting()
@@ -46,6 +50,7 @@ public class PlayerController : MonoBehaviour
         if(_statManager.stats.Health <= 0 && _isAlive)
         {
             KillPlayer();
+            _statManager.stats.Health = 0;
         }
     }
 
@@ -60,7 +65,7 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetTrigger("Attack");
 
-            if (attackHandler.CalculateEnemyHitChance())
+            if (attackHandler.CalculateHitChance())
             {
                 AttackEnemy.Invoke(attackHandler.CalculateOutgoingDamage());
             }
@@ -77,7 +82,14 @@ public class PlayerController : MonoBehaviour
 
     public bool TryHit()
     {
-        return attackHandler.CalculateEnemyHitChance();
+        bool isHit = attackHandler.CalculateEnemyHitChance();
+
+        if (!isHit)
+        {
+            _animator.SetTrigger("Defend");
+        }
+
+        return isHit;
     }
 
     public void AttackPlayer(int damage)
@@ -85,5 +97,7 @@ public class PlayerController : MonoBehaviour
         HitInfo hitInfo = attackHandler.CalculateIncomingDamage(damage);
 
         _statManager.stats.Health -= hitInfo.Damage;
+        _textMeshPro.text = "HP: " + _statManager.stats.Health.ToString();
+        Debug.Log("Player hit for: " + hitInfo.Damage.ToString());
     }
 }
