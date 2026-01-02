@@ -3,12 +3,12 @@ Plays RPGs regularly: No
 RPGs played: 0
 
 Stats:
-Attack: 8
+Attack: 13
 Defense: 1
 Special Attack: 1
 Special Defense: 1
-Speed: 4
-Accuracy: 3
+Speed: 1
+Accuracy: 1
 Evasion: 1
-Buildcrafting time: 00m:06s
-Gameplay time: 00m:30s
+Buildcrafting time: 00m:04s
+Gameplay time: 00m:08s

@@ -30,7 +30,7 @@ public class PlayerStatManager : MonoBehaviour
         stats.Health = maxHP;
         stats.Mana = maxMP;
 
-        StatNr = ModeRandomiser.Instance.Mode;
+        StatNr = GameManager.Instance.Mode;
         Initialise();
     }
     

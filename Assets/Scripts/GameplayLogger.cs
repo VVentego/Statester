@@ -10,7 +10,6 @@ public class GameplayLogger : MonoBehaviour
     private System.DateTime _statChoosingEndTime;
 
     EnemyController _enemyController;
-    private string _logFilePath;
     private PlayerStatManager _statManager;
 
     private void Awake()
@@ -31,10 +30,6 @@ public class GameplayLogger : MonoBehaviour
     private void OnDisable()
     {
         _enemyController.EnemyDefeated.RemoveListener(GameFinished);
-    }
-    public void SetLogFilePath(string path)
-    {
-        _logFilePath = path;
     }
 
     public void StartChoosingStats()
@@ -64,10 +59,10 @@ public class GameplayLogger : MonoBehaviour
         {
             case 0:
                 FourStats fourStats = _statManager.GetFourStats();
-                gameplayInfoString += "\nStrength" + fourStats.Strength.Value.ToString();
-                gameplayInfoString += "\nAgility" + fourStats.Agility.ToString();
-                gameplayInfoString += "\nIntelligence" + fourStats.Intelligence.ToString();
-                gameplayInfoString += "\nMind" + fourStats.Mind.ToString();
+                gameplayInfoString += "\nStrength: " + fourStats.Strength.Value.ToString();
+                gameplayInfoString += "\nAgility: " + fourStats.Agility.ToString();
+                gameplayInfoString += "\nIntelligence: " + fourStats.Intelligence.ToString();
+                gameplayInfoString += "\nMind: " + fourStats.Mind.ToString();
                 break;
             case 1:
                 SevenStats sevenStats = _statManager.GetSevenStats();
@@ -102,6 +97,6 @@ public class GameplayLogger : MonoBehaviour
         gameplayInfoString += "\nBuildcrafting time: " + statDurationString;
         gameplayInfoString += "\nGameplay time: " + durationString;
 
-        File.AppendAllText(_logFilePath, gameplayInfoString);
+        File.AppendAllText(GameManager.Instance.SurveyPath, gameplayInfoString);
     }
 }

@@ -8,7 +8,7 @@ public class SurveyManager : MonoBehaviour
     private int _preferredGenre;
     private bool _isRegularPlayerOfRPGs;
     private int _RPGsPlayed;
-
+    private string _filePath;
     public void PreferredGenre(Int32 option)
     {
         _preferredGenre = option;
@@ -22,6 +22,15 @@ public class SurveyManager : MonoBehaviour
     public void RPGsPlayed(Int32 option)
     {
         _RPGsPlayed = option;
+    }
+
+    public void Start()
+    {
+        if(GameManager.Instance.IsSurveyComplete == true)
+        {
+            gameObject.SetActive(false);
+            _gameUI.SetActive(true);
+        }
     }
 
     private string ComposeSurveyAnswer()
@@ -75,11 +84,14 @@ public class SurveyManager : MonoBehaviour
         string timestamp = DateTime.Now.ToString("HH-mm-ss_yyyy-MM-dd");
 
         string fileName = $"Survey_{timestamp}.txt";
-        string filePath = Path.Combine(Application.dataPath, fileName);
+        _filePath = Path.Combine(Application.dataPath, fileName);
 
-        File.WriteAllText(filePath, info);
+        File.WriteAllText(_filePath, info);
 
-        return filePath;
+        GameManager.SurveyComplete();
+        GameManager.SetSurveyPath(_filePath);
+
+        return _filePath;
     }
 
     public void SubmitSurvey()
@@ -88,13 +100,13 @@ public class SurveyManager : MonoBehaviour
         
         string filePath = WriteToFile(ComposeSurveyAnswer());
 
-        if (logger != null)
-        {
-            logger.SetLogFilePath(filePath);
-        }
-
         gameObject.SetActive(false);
 
         _gameUI.SetActive(true);
+    }
+
+    public void DeleteSurvey()
+    {
+        File.Delete(_filePath);
     }
 }

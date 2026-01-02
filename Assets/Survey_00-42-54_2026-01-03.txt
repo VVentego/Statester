@@ -1,0 +1,14 @@
+Preferred genre: WRPG
+Plays RPGs regularly: No
+RPGs played: 0
+
+Stats:
+Attack: 7
+Defense: 1
+Special Attack: 1
+Special Defense: 1
+Speed: 1
+Accuracy: 6
+Evasion: 2
+Buildcrafting time: 00m:08s
+Gameplay time: 00m:07s

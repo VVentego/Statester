@@ -67,6 +67,7 @@ public class EnemyController : MonoBehaviour
     public void DamageEnemy(HitInfo hit)
     {
         _currentHealth -= hit.Damage;
+        _damageDisplay.DisplayDamage(hit);
 
         if (_currentHealth <= 0)
         {
@@ -80,7 +81,6 @@ public class EnemyController : MonoBehaviour
 
         hpText.text = _currentHealth.ToString() + "/" + _startingHealth.ToString();
         _animator.SetTrigger("Damaged");
-        _damageDisplay.DisplayDamage(hit);
     }
 
     private void OnAttacked(HitInfo hitInfo)

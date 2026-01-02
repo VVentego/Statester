@@ -3,7 +3,7 @@ using UnityEngine;
 public class AttackNineStats : AttackBase
 {
     PlayerStatManager _statsObject;
-    [SerializeField] private int baseDamage = 10;
+    [SerializeField] private int baseDamage = 5;
     [SerializeField] private float baseCritChance = 0.1f;
     [SerializeField] private float damageVariance = 0.15f;
     [SerializeField] private float baseHitChance = 0.75f;
@@ -102,7 +102,8 @@ public class AttackNineStats : AttackBase
     {
         HitInfo hitInfo = new HitInfo();
         hitInfo.IsCrit = false;
-        float damage = _statsObject.nineStats.Strength.Value * baseDamage * 0.25f;
+        float damageMultiplier = 0.25f;
+        float damage = _statsObject.nineStats.Strength.Value * damageMultiplier + baseDamage;
         float variance = Random.Range(-damageVariance, damageVariance);
 
         damage += damage * variance;
