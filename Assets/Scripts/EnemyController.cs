@@ -22,15 +22,17 @@ public class EnemyController : MonoBehaviour
 
     private Coroutine _coroutine;
     private TMP_Text hpText;
+    private DamageIndicator _damageDisplay;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _animator = GetComponent<Animator>();
+        _damageDisplay = GetComponent<DamageIndicator>();
 
         _currentHealth = _startingHealth;
         hpText = GetComponentInChildren<TMP_Text>();
-        hpText.text = "HP: " + _currentHealth.ToString();
+        hpText.text = _currentHealth.ToString() + "/" + _startingHealth.ToString();
     }
 
     void Awake()
@@ -38,13 +40,13 @@ public class EnemyController : MonoBehaviour
         _playerController = FindAnyObjectByType<PlayerController>();
     }
 
-    public void OnEnable()
+    private void OnEnable()
     {
         _playerController.AttackEnemy.AddListener(OnAttacked);
         _playerController.PlayerDefeated.AddListener(OnPlayerDefeated);
     }
 
-    public void OnDisable()
+    private void OnDisable()
     {
         _playerController.AttackEnemy.RemoveListener(OnAttacked);
         _playerController.PlayerDefeated.RemoveListener(OnPlayerDefeated);
@@ -62,9 +64,9 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    public void DamageEnemy(int damage)
+    public void DamageEnemy(HitInfo hit)
     {
-        _currentHealth -= damage;
+        _currentHealth -= hit.Damage;
 
         if (_currentHealth <= 0)
         {
@@ -72,18 +74,18 @@ public class EnemyController : MonoBehaviour
             _animator.SetTrigger("Dead");
             _currentHealth = 0;
             StopCoroutine(_coroutine);
-            hpText.text = "HP: " + _currentHealth.ToString();
+            hpText.text = _currentHealth.ToString() + "/" + _startingHealth.ToString();
             return;
         }
 
-        hpText.text = "HP: " + _currentHealth.ToString();
+        hpText.text = _currentHealth.ToString() + "/" + _startingHealth.ToString();
         _animator.SetTrigger("Damaged");
-        Debug.Log("Enemy hit for: " + damage);
+        _damageDisplay.DisplayDamage(hit);
     }
 
     private void OnAttacked(HitInfo hitInfo)
     {
-        DamageEnemy(hitInfo.Damage);
+        DamageEnemy(hitInfo);
     }
 
     private IEnumerator StartAttackLoop()
@@ -102,5 +104,12 @@ public class EnemyController : MonoBehaviour
     private void OnPlayerDefeated()
     {
         StopCoroutine(_coroutine);
+        _animator.SetTrigger("Win");
+    }
+
+    public void SetMaxHP(int hp)
+    {
+        _startingHealth = hp;
+        _currentHealth = hp;
     }
 }

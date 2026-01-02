@@ -1,4 +1,3 @@
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class AttackFourStats : AttackBase
@@ -6,7 +5,7 @@ public class AttackFourStats : AttackBase
     PlayerStatManager _statsObject;
     [SerializeField] private int baseDamage = 1;
     [SerializeField] private float baseCritChance = 0.1f;
-    [SerializeField] private float damageVariance = 0.05f;
+    [SerializeField] private float damageVariance = 0.10f;
 
     [SerializeField] private float baseDodgeChance = 0f;
 
@@ -23,7 +22,7 @@ public class AttackFourStats : AttackBase
         float damage = _statsObject.fourStats.Strength.Value * baseDamage;
         float variance = Random.Range(-damageVariance, damageVariance);
 
-        damage += variance;
+        damage += damage * variance;
         hitInfo.Damage = Mathf.RoundToInt(damage);
 
         if (Random.Range(0, 101) <= (100f * baseCritChance))
@@ -45,7 +44,7 @@ public class AttackFourStats : AttackBase
         hitInfo.IsCrit = false;
         float damage = enemyDamage;
         float variance = Random.Range(-damageVariance, damageVariance);
-        damage += variance;
+        damage += damage * variance;
 
         if (Random.Range(0, 101) <= 10)
         {

@@ -1,0 +1,14 @@
+Preferred genre: JRPG
+Plays RPGs regularly: Yes
+RPGs played: 2-4
+
+Stats:
+Attack: 7
+Defense: 2
+Special Attack: 1
+Special Defense: 1
+Speed: 3
+Accuracy: 4
+Evasion: 1
+Buildcrafting time: 00:00:16.9574646
+Gameplay time: 00m:30s

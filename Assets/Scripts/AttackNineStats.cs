@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class AttackSevenStats : AttackBase
+public class AttackNineStats : AttackBase
 {
     PlayerStatManager _statsObject;
-    [SerializeField] private int baseDamage = 1;
+    [SerializeField] private int baseDamage = 10;
     [SerializeField] private float baseCritChance = 0.1f;
-    [SerializeField] private float damageVariance = 0.1f;
-    [SerializeField] private float baseHitChance = 0.1f;
+    [SerializeField] private float damageVariance = 0.15f;
+    [SerializeField] private float baseHitChance = 0.75f;
     [SerializeField] private float baseDodgeChance = 0f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -14,23 +14,22 @@ public class AttackSevenStats : AttackBase
     {
         _statsObject = FindFirstObjectByType<PlayerStatManager>();
     }
+
     public override bool CalculateEnemyHitChance()
     {
         float dodgeChance = baseDodgeChance;
-        float additionalDodgeChance = 0.05f;
-
 
         //Soft cap of 50% dodge chance
-        if (_statsObject.sevenStats.Evasion.Value <= 10)
+        if (_statsObject.nineStats.Dexterity.Value <= 10)
         {
-            dodgeChance += _statsObject.sevenStats.Evasion.Value * additionalDodgeChance;
+            dodgeChance += _statsObject.nineStats.Dexterity.Value * 0.05f;
         }
 
-        //Beyond 10 evasion, only add 1% dodge chance.
+        //Beyond 10 dexterity, only add 1% dodge chance.
         else
         {
-            dodgeChance += 10 * additionalDodgeChance;
-            dodgeChance += (_statsObject.sevenStats.Evasion.Value - 10) * 0.01f;
+            dodgeChance += 10 * 0.05f;
+            dodgeChance += (_statsObject.nineStats.Dexterity.Value - 10) * 0.01f;
         }
 
         if (Random.Range(0, 101) < dodgeChance * 100)
@@ -44,8 +43,7 @@ public class AttackSevenStats : AttackBase
     public override bool CalculateHitChance()
     {
         float hitChance = baseHitChance;
-        float additionalHitChance = 0.1f;
-        hitChance += _statsObject.sevenStats.Accuracy.Value * additionalHitChance;
+        hitChance += _statsObject.nineStats.Dexterity.Value * 0.2f;
 
         if (hitChance >= 1f)
         {
@@ -64,23 +62,31 @@ public class AttackSevenStats : AttackBase
     {
         HitInfo hitInfo = new HitInfo();
         hitInfo.IsCrit = false;
-        int baseCritChance = 10;
-
         float damage = enemyDamage;
         float variance = Random.Range(-damageVariance, damageVariance);
         damage += damage * variance;
 
-        if (Random.Range(0, 101) <= baseCritChance)
+        if (Random.Range(0, 101) <= 10)
         {
             damage += damage * 0.5f;
             hitInfo.IsCrit = true;
         }
 
-        float percentagePerPoint = 0.075f;
-        float damageReduction = _statsObject.sevenStats.Defense.Value * percentagePerPoint; //7.5% reduction per point
+        float damageReduction = _statsObject.nineStats.Vigor.Value * 0.075f; //7.5% reduction per point)
+        if (_statsObject.nineStats.Adaptabilty.Value > 5)
+        {
+            damageReduction += _statsObject.nineStats.Adaptabilty.Value * 0.075f * 5;
+            uint remainingPoints = _statsObject.nineStats.Adaptabilty.Value - 5;
+
+            damageReduction += remainingPoints * 0.075f;
+        }
+        else
+        {
+            damageReduction += _statsObject.nineStats.Adaptabilty.Value * 0.075f;
+        }
 
         //Hard cap
-        if(damageReduction > 0.75f)
+        if (damageReduction > 0.75f)
         {
             damageReduction = 0.75f;
         }
@@ -96,28 +102,22 @@ public class AttackSevenStats : AttackBase
     {
         HitInfo hitInfo = new HitInfo();
         hitInfo.IsCrit = false;
-        float damage = _statsObject.sevenStats.Attack.Value * baseDamage;
+        float damage = _statsObject.nineStats.Strength.Value * baseDamage * 0.25f;
         float variance = Random.Range(-damageVariance, damageVariance);
 
         damage += damage * variance;
         hitInfo.Damage = Mathf.RoundToInt(damage);
 
         float critChance = baseCritChance;
-        if (_statsObject.sevenStats.Accuracy.Value > 10)
+        if (_statsObject.nineStats.Dexterity.Value > 10)
         {
             //Additional 1% crit chance per point over 10
-            critChance += (float)(_statsObject.sevenStats.Accuracy.Value - 10) / 100f;
-
-            //Cap it at 0.2f
-            if (critChance > 0.2f)
-            {
-                critChance = 0.2f;
-            }
+            critChance += (float)(_statsObject.nineStats.Dexterity.Value - 10) / 100f;
         }
 
         if (Random.Range(0, 101) <= (100f * critChance))
         {
-            damage += damage * 0.5f;
+            damage *= 1.5f;
             hitInfo.IsCrit = true;
         }
 

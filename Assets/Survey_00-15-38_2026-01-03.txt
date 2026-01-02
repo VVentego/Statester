@@ -1,0 +1,11 @@
+Preferred genre: WRPG
+Plays RPGs regularly: No
+RPGs played: 0
+
+Stats:
+Strength7
+AgilityStat
+IntelligenceStat
+MindStat
+Buildcrafting time: 00m:04s
+Gameplay time: 00m:14s

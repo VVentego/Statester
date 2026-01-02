@@ -1,0 +1,13 @@
+Preferred genre: JRPG
+Plays RPGs regularly: Yes
+RPGs played: 2-4
+
+Stats:
+Attack: 7
+Defense: 2
+Special Attack: 1
+Special Defense: 1
+Speed: 2
+Accuracy: 5
+Evasion: 1
+Gameplay time: 00m:26s

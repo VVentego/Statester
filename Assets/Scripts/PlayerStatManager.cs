@@ -1,13 +1,12 @@
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class PlayerStatManager : MonoBehaviour
 {
-    [SerializeField, Range(0, 2)]
-    private int _statNr = 0;
+    public int StatNr { get; private set; } = 0;
 
     private StatsDisplay _statsDisplay;
     private StatButtonHandler _statButtonHandler;
+    [SerializeField] GameObject _gameUI;
 
     public int defaultHP = 100;
     public int maxHP;
@@ -31,9 +30,15 @@ public class PlayerStatManager : MonoBehaviour
         stats.Health = maxHP;
         stats.Mana = maxMP;
 
+        StatNr = ModeRandomiser.Instance.Mode;
+        Initialise();
+    }
+    
+    private void Initialise()
+    {
         PlayerController player = GetComponent<PlayerController>();
 
-        switch (_statNr)
+        switch (StatNr)
         {
             case 0:
                 fourStats = new()
@@ -47,7 +52,7 @@ public class PlayerStatManager : MonoBehaviour
                 _statButtonHandler.Initialise(0);
                 player.SetAttackHandler(gameObject.AddComponent<AttackFourStats>());
                 break;
-                case 1:
+            case 1:
                 sevenStats = new()
                 {
                     Attack = new Stat(1),
@@ -62,21 +67,22 @@ public class PlayerStatManager : MonoBehaviour
                 _statButtonHandler.Initialise(1);
                 player.SetAttackHandler(gameObject.AddComponent<AttackSevenStats>());
                 break;
-                case 2:
-                    nineStats = new()
-                    {
-                        Vitality = new Stat(1),
-                        Endurance = new Stat(1),
-                        Vigor = new Stat(1),
-                        Attunement = new Stat(1),
-                        Strength = new Stat(1),
-                        Dexterity = new Stat(1),
-                        Adaptabilty = new Stat(1),
-                        Intelligence = new Stat(1),
-                        Faith = new Stat(1)
-                    };
+            case 2:
+                nineStats = new()
+                {
+                    Vitality = new Stat(1),
+                    Endurance = new Stat(1),
+                    Vigor = new Stat(1),
+                    Attunement = new Stat(1),
+                    Strength = new Stat(1),
+                    Dexterity = new Stat(1),
+                    Adaptabilty = new Stat(1),
+                    Intelligence = new Stat(1),
+                    Faith = new Stat(1)
+                };
                 _statsDisplay.InitialiseNine(nineStats);
                 _statButtonHandler.Initialise(2);
+                player.SetAttackHandler(gameObject.AddComponent<AttackNineStats>());
                 break;
             default:
                 fourStats = new()
@@ -91,8 +97,9 @@ public class PlayerStatManager : MonoBehaviour
                 player.SetAttackHandler(gameObject.AddComponent<AttackFourStats>());
                 break;
         }
+        _gameUI.SetActive(false);
     }
-    
+
     public FourStats GetFourStats()
     {
         return fourStats;
