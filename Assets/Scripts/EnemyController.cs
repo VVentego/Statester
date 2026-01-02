@@ -70,6 +70,7 @@ public class EnemyController : MonoBehaviour
         {
             EnemyDefeated.Invoke();
             _animator.SetTrigger("Dead");
+            _currentHealth = 0;
             StopCoroutine(_coroutine);
             hpText.text = "HP: " + _currentHealth.ToString();
             return;

@@ -12,20 +12,37 @@ public class PlayerController : MonoBehaviour
     public UnityEvent<HitInfo> AttackEnemy = new();
 
     private bool _isAlive = true;
-    TMP_Text _textMeshPro;
+    private TMP_Text _textMeshPro;
 
-    Animator _animator;
-    PlayerStatManager _statManager;
-    EnemyController _enemyController;
+    private Animator _animator;
+    private PlayerStatManager _statManager;
+    private EnemyController _enemyController;
+
+    private Coroutine _attackCoroutine;
 
     private void Awake()
     {
         _enemyController = FindAnyObjectByType<EnemyController>();
     }
 
+    public void OnEnable()
+    {
+        _enemyController.EnemyDefeated.AddListener(OnEnemyDeath);
+    }
+
+    public void OnDisable()
+    {
+        _enemyController.EnemyDefeated.RemoveListener(OnEnemyDeath);
+    }
+
     public void SetAttackHandler(AttackBase attackHandlerComponent)
     {
         attackHandler = attackHandlerComponent;
+    }
+
+    void OnEnemyDeath()
+    {
+        StopCoroutine(_attackCoroutine);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -40,7 +57,10 @@ public class PlayerController : MonoBehaviour
 
     public void StartFighting()
     {
-        StartCoroutine(StartAttackLoop());
+        if (_attackCoroutine == null)
+        {
+            _attackCoroutine = StartCoroutine(StartAttackLoop());
+        }
     }
 
 
@@ -50,7 +70,6 @@ public class PlayerController : MonoBehaviour
         if(_statManager.stats.Health <= 0 && _isAlive)
         {
             KillPlayer();
-            _statManager.stats.Health = 0;
         }
     }
 
@@ -97,6 +116,11 @@ public class PlayerController : MonoBehaviour
         HitInfo hitInfo = attackHandler.CalculateIncomingDamage(damage);
 
         _statManager.stats.Health -= hitInfo.Damage;
+        if(_statManager.stats.Health < 0)
+        {
+            _statManager.stats.Health = 0;
+        }
+
         _textMeshPro.text = "HP: " + _statManager.stats.Health.ToString();
         Debug.Log("Player hit for: " + hitInfo.Damage.ToString());
     }
