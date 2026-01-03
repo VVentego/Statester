@@ -115,6 +115,10 @@ public class StatButtonHandler : MonoBehaviour
     }
     public void SubFromStat0()
     {
+        if (_statMode == 2)
+        {
+            _player.SetHP(_statManager.nineStats.Vitality.Value);
+        }
         SubtractFromStat(0);
     }
     public void SubFromStat1()
