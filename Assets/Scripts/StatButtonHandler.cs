@@ -95,6 +95,10 @@ public class StatButtonHandler : MonoBehaviour
     }
     public void AddToStat4() 
     {
+        if(_statMode == 1)
+        {
+            _player.SetAttackSpeed(_statManager.sevenStats.Speed.Value);
+        }
         AddToStat(4);
     }
     public void AddToStat5() 
@@ -135,6 +139,10 @@ public class StatButtonHandler : MonoBehaviour
     }
     public void SubFromStat4() 
     {
+        if (_statMode == 1)
+        {
+            _player.SetAttackSpeed(_statManager.sevenStats.Speed.Value);
+        }
         SubtractFromStat(4);
     }
     public void SubFromStat5() 

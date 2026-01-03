@@ -84,7 +84,9 @@ public class PlayerController : MonoBehaviour
 
     public void SetAttackSpeed(float speed)
     {
-        _attackSpeed = speed;
+        float baseAttackSpeed = 1f;
+        float multiplier = 0.125f;
+        _attackSpeed += baseAttackSpeed + speed * multiplier;
     }
 
     private IEnumerator StartAttackLoop()
