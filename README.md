@@ -10,4 +10,8 @@ The survey.txt file will be in the Data folder, I will be very grateful if you c
 <img width="2560" height="1440" alt="{F538A152-D5A8-407E-8E94-6F324F4F8907}" src="https://github.com/user-attachments/assets/be140db0-3607-4fc8-9cae-2b37cdeeecf1" />
 
 Setup instructions: Unpack and run the Unity executable.
-Link for Windows: blob:https://github.com/d8fb4c97-3d1f-4c1d-a9fe-5ebb84f8eae1
+Link for Windows: https://github.com/VVentego/Statester/blob/main/Statester_BUILD.zip
+
+It's this tiny button on the top right:
+<img width="310" height="218" alt="{0BC109D6-9050-41C4-B4FE-8FB0D9C28750}" src="https://github.com/user-attachments/assets/34d16fb6-8a5f-4a57-a602-fc650d1055a7" />
+
