@@ -14,4 +14,4 @@ No personally identifying information is collected, only gameplay information.
 
 Setup instructions: Unpack and run the Unity executable.
 When you start the game, you will receive a randomly selected mode out of three.
-Link for Windows: https://github.com/VVentego/Statester/releases/tag/v0.1.2
+Link for Windows: https://github.com/VVentego/Statester/releases/tag/v.0.1.2
